@@ -1,63 +1,55 @@
-import Link from 'next/link';
-import { Card } from 'components/card';
-import { ContextAlert } from 'components/context-alert';
-import { Markdown } from 'components/markdown';
-import { RandomQuote } from 'components/random-quote';
-import { getNetlifyContext } from 'utils';
-
-const contextExplainer = `
-The card below is rendered on the server based on the value of \`process.env.CONTEXT\` 
-([docs](https://docs.netlify.com/configure-builds/environment-variables/#build-metadata)):
-`;
-
-const preDynamicContentExplainer = `
-The card content below is fetched by the client-side from \`/quotes/random\` (see file \`app/quotes/random/route.js\`) with a different quote shown on each page load:
-`;
-
-const ctx = getNetlifyContext();
+"use client";
+import { motion } from "framer-motion";
 
 export default function Page() {
-    return (
-        <div className="flex flex-col gap-12 sm:gap-16">
-            <section>
-                <ContextAlert className="mb-6" />
-                <h1 className="mb-4">Netlify Platform Starter – Next.js</h1>
-                <p className="mb-6 text-lg">
-                    Deploy the latest version of Next.js — including Turbopack, React Compiler, and the new caching APIs
-                    — on Netlify in seconds. No configuration or custom adapter required.
-                </p>
-                <Link href="https://docs.netlify.com/frameworks/next-js/overview/" className="btn btn-lg sm:min-w-64">
-                    Read the Docs
-                </Link>
-            </section>
-            {!!ctx && (
-                <section className="flex flex-col gap-4">
-                    <Markdown content={contextExplainer} />
-                    <RuntimeContextCard />
-                </section>
-            )}
-            <section className="flex flex-col gap-4">
-                <Markdown content={preDynamicContentExplainer} />
-                <RandomQuote />
-            </section>
-        </div>
-    );
-}
+  return (
+    <div className="flex flex-col items-center justify-center h-screen bg-black text-white relative overflow-hidden">
+      {/* Neon arka plan ışıltısı */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-700/30 via-blue-800/30 to-black blur-3xl"></div>
 
-function RuntimeContextCard() {
-    const title = `Netlify Context: running in ${ctx} mode.`;
-    if (ctx === 'dev') {
-        return (
-            <Card title={title}>
-                <p>Next.js will rebuild any page you navigate to, including static pages.</p>
-            </Card>
-        );
-    } else {
-        const now = new Date().toISOString();
-        return (
-            <Card title={title}>
-                <p>This page was statically-generated at build time ({now}).</p>
-            </Card>
-        );
-    }
+      {/* Neon yazı */}
+      <motion.h1
+        className="text-6xl md:text-8xl font-extrabold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 drop-shadow-[0_0_25px_rgba(0,255,255,0.6)] z-10"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.5 }}
+      >
+        Sherlock OİT
+      </motion.h1>
+
+      {/* Alt açıklama */}
+      <motion.p
+        className="mt-6 text-lg md:text-2xl text-gray-300 z-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1, duration: 1 }}
+      >
+        Gizemli güç. Sessiz kaos.
+      </motion.p>
+
+      {/* Giriş butonu */}
+      <motion.a
+        href="#"
+        className="mt-12 px-10 py-4 text-2xl font-semibold border-4 border-cyan-400 rounded-full text-cyan-400 hover:text-black hover:bg-cyan-400 transition-all duration-500 shadow-[0_0_30px_#00ffff] z-10"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.5, duration: 1 }}
+      >
+        Giriş Yap
+      </motion.a>
+
+      {/* Hafif arka plan parıltısı */}
+      <motion.div
+        className="absolute bottom-10 w-72 h-72 bg-cyan-500/20 rounded-full blur-3xl"
+        animate={{
+          y: [0, -20, 0],
+          opacity: [0.3, 0.6, 0.3],
+        }}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+        }}
+      />
+    </div>
+  );
 }
